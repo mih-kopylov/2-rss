@@ -115,7 +115,7 @@
     </dependencies>
 
     <build>
-        <finalName>vk2rss</finalName>
+        <finalName>ROOT</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
