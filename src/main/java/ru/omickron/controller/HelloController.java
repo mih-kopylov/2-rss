@@ -2,6 +2,7 @@ package ru.omickron.controller;
 
 import javax.ws.rs.FormParam;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import ru.omickron.service.VkService;
 
 @Controller
 @RequestMapping("/")
+@Slf4j
 public class HelloController {
     @Qualifier("apiVkService")
     @Autowired
@@ -23,6 +25,7 @@ public class HelloController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcome() {
+        log.info("Lombok logged");
         return "hello";
     }
 
