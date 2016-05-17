@@ -20,8 +20,6 @@ public class IndexController {
     @Qualifier("apiVkService")
     @Autowired
     private VkService vkService;
-    @Autowired
-    private VkService testService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcome() {
