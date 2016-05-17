@@ -1,8 +1,8 @@
 package ru.omickron.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.sun.jersey.api.client.Client;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +29,6 @@ public class ApiVkService implements VkService {
     private static final String P_DATE = "date";
     private static final String P_ATTACHMENTS = "attachments";
     private static final String ATTACHMENT_TYPE_PHOTO = "photo";
-    private static final String ATTACHMENT_TYPE_POSTED_PHOTO = "posted_photo";
     private static final String P_TYPE = "type";
     private static final String P_PHOTO = "photo";
     private static final String P_PHOTO_604 = "photo_604";
@@ -44,7 +43,7 @@ public class ApiVkService implements VkService {
         String title = null;
         String link = null;
         String description = null;
-        List<RssItem> items = new ArrayList<RssItem>();
+        List<RssItem> items = Lists.newArrayList();
         try {
             JSONObject groupJson = getGroupJson( id );
             if (groupJson != null) {
@@ -98,7 +97,7 @@ public class ApiVkService implements VkService {
     }
 
     private List<String> getPhotos( JSONObject itemJson ) throws JSONException {
-        List<String> result = new ArrayList<String>();
+        List<String> result = Lists.newArrayList();
         if (itemJson.has( P_ATTACHMENTS )) {
             JSONArray attachments = itemJson.getJSONArray( P_ATTACHMENTS );
             for (int i = 0; i < attachments.length(); i++) {

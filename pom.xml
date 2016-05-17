@@ -23,6 +23,7 @@
         <jersey-client.version>1.17</jersey-client.version>
         <lombok.version>1.16.8</lombok.version>
         <slf4j-log4j12.version>1.7.21</slf4j-log4j12.version>
+        <guava.version>18.0</guava.version>
     </properties>
 
     <dependencyManagement>
@@ -100,6 +101,11 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4j-log4j12.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
         <!--Provided-->
         <dependency>
