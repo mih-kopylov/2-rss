@@ -17,11 +17,11 @@ import ru.omickron.model.RssItem;
 @Slf4j
 public class ApiVkService implements VkService {
     private static final String LINK_VK_API = "https://api.vk.com/method/";
-    private static final String VK_API_VERSION = "5.1";
+    private static final String VK_API_VERSION = "5.52";
     private static final String LINK_VK_GET_POSTS =
             LINK_VK_API + "wall.get?v=" + VK_API_VERSION + "&count=30&owner_id=-";
     private static final String LINK_VK_GET_GROUP =
-            LINK_VK_API + "groups.getById?v=\"+VK_API_VERSION+\"&fields=description&group_id=";
+            LINK_VK_API + "groups.getById?v=" + VK_API_VERSION + "&fields=description&group_id=";
     private static final String LINK_VK_POST = "<![CDATA[" + LINK_VK + "wall-%1$s?own=1&w=wall-%1$s_%2$s]]>";
     private static final Client CLIENT = Client.create();
     private static final String BREAK = "<br>";
