@@ -1,46 +1,14 @@
 package ru.omickron.controller;
 
-import javax.ws.rs.FormParam;
-
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.omickron.model.RssChannel;
-import ru.omickron.service.VkService;
 
 @Controller
 @RequestMapping("/")
-@Slf4j
 public class IndexController {
-    @Qualifier("apiVkService")
-    @Autowired
-    private VkService vkService;
-
     @RequestMapping(method = RequestMethod.GET)
-    public String printWelcome() {
-        return "index";
-    }
-
-    @RequestMapping(value = "/vk/{idClub:.*}", method = RequestMethod.GET)
-    public String getVkFeed( ModelMap model, @PathVariable("idClub") String idClub ) {
-        RssChannel channel = vkService.getChannel( idClub );
-        model.addAttribute( "channel", channel );
-        return "rss";
-    }
-
-    @RequestMapping(value = "/feed", method = RequestMethod.POST)
-    public String newVkFeed( @FormParam("link") String link ) {
-        if (link.startsWith( VkService.LINK_VK )) {
-            String id = link.substring( VkService.LINK_VK.length() );
-            if (id.matches( "[\\w,\\.]+" )) {
-                return "redirect:/vk/" + id;
-            }
-        }
+    public String index() {
         return "index";
     }
 }

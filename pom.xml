@@ -24,6 +24,7 @@
         <lombok.version>1.16.8</lombok.version>
         <slf4j-log4j12.version>1.7.21</slf4j-log4j12.version>
         <guava.version>18.0</guava.version>
+        <jackson.version>2.7.4</jackson.version>
     </properties>
 
     <dependencyManagement>
@@ -106,6 +107,21 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
         <!--Provided-->
         <dependency>
