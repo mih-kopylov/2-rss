@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.sun.jersey.api.client.Client;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,10 +14,14 @@ import ru.omickron.model.RssChannel;
 import ru.omickron.model.RssItem;
 
 @Component
+@Slf4j
 public class ApiVkService implements VkService {
     private static final String LINK_VK_API = "https://api.vk.com/method/";
-    private static final String LINK_VK_GET_POSTS = LINK_VK_API + "wall.get?v=5.1&count=30&owner_id=-";
-    private static final String LINK_VK_GET_GROUP = LINK_VK_API + "groups.getById?v=5.1&fields=description&group_id=";
+    private static final String VK_API_VERSION = "5.1";
+    private static final String LINK_VK_GET_POSTS =
+            LINK_VK_API + "wall.get?v=" + VK_API_VERSION + "&count=30&owner_id=-";
+    private static final String LINK_VK_GET_GROUP =
+            LINK_VK_API + "groups.getById?v=\"+VK_API_VERSION+\"&fields=description&group_id=";
     private static final String LINK_VK_POST = "<![CDATA[" + LINK_VK + "wall-%1$s?own=1&w=wall-%1$s_%2$s]]>";
     private static final Client CLIENT = Client.create();
     private static final String BREAK = "<br>";
@@ -38,8 +43,9 @@ public class ApiVkService implements VkService {
     private static final String TEMPLATE_LINK = "\\[([^\\|]+)\\|([^\\]]+)\\]";
     private static final String TEMPLATE_LINK_REPLACE = "<a href=$1>$2</a>";
 
-    @Cacheable(value = "getChannel")
+    @Cacheable(value = "channel")
     public RssChannel getChannel( String id ) {
+        log.debug( "Generating channel" );
         String title = null;
         String link = null;
         String description = null;
@@ -52,13 +58,13 @@ public class ApiVkService implements VkService {
                 if (closed == 0) {
                     link = LINK_VK + id;
                     description = groupJson.getString( P_DESCRIPTION );
-                    String groupId = groupJson.getString( P_ID );
+                    String groupId = String.valueOf( groupJson.get( P_ID ) );
 
                     JSONArray itemsJson = getItemsJson( groupId );
                     for (int i = 0; i < itemsJson.length(); i++) {
                         JSONObject itemJson = itemsJson.getJSONObject( i );
 
-                        String itemId = itemJson.getString( P_ID );
+                        String itemId = String.valueOf( itemJson.get( P_ID ) );
                         String itemLink = String.format( LINK_VK_POST, groupId, itemId );
                         String itemDescription = itemJson.getString( P_TEXT );
                         if (itemJson.has( P_COPY_TEXT )) {

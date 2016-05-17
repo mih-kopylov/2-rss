@@ -16,7 +16,7 @@ import ru.omickron.service.VkService;
 @Controller
 @RequestMapping("/")
 @Slf4j
-public class HelloController {
+public class IndexController {
     @Qualifier("apiVkService")
     @Autowired
     private VkService vkService;
@@ -25,21 +25,13 @@ public class HelloController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcome() {
-        log.info("Lombok logged");
-        return "hello";
+        return "index";
     }
 
     @RequestMapping(value = "/vk/{idClub:.*}", method = RequestMethod.GET)
     public String getVkFeed( ModelMap model, @PathVariable("idClub") String idClub ) {
         RssChannel channel = vkService.getChannel( idClub );
         model.addAttribute( "channel", channel );
-        return "rss";
-    }
-
-    @RequestMapping(value = "test", method = RequestMethod.GET)
-    public String getTestFeed( ModelMap modelMap ) {
-        RssChannel channel = testService.getChannel( "" );
-        modelMap.addAttribute( "channel", channel );
         return "rss";
     }
 
@@ -51,6 +43,6 @@ public class HelloController {
                 return "redirect:/vk/" + id;
             }
         }
-        return "hello";
+        return "index";
     }
 }
