@@ -4,6 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
+@JacksonXmlRootElement(localName = "item")
 public class RssItem {
     private static final int MILLIS = 1000;
     private final String title;
