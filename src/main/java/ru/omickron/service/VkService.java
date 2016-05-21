@@ -47,11 +47,11 @@ public class VkService {
 
     @Cacheable(value = "rss")
     public Rss getRss( String id ) {
+        log.debug( "Generating channel {} ", id );
         return new Rss( getChannel( id ) );
     }
 
     private RssChannel getChannel( String id ) {
-        log.debug( "Generating channel" );
         String title = null;
         String link = null;
         String description = null;
