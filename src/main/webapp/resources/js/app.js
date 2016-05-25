@@ -74,7 +74,8 @@
                     $scope.social = $scope.getSocial();
                     $scope.rssFeed = "";
                     if ($scope.social) {
-                        $scope.rssFeed = location.host + "/" + $scope.social.rssKey + $scope.social.rssValue;
+                        $scope.rssFeed = CONST.HTTP + location.host + "/" + $scope.social.rssKey +
+                            $scope.social.rssValue;
                     }
                 });
                 $scope.socials = [SOCIAL.VK, SOCIAL.PIKABU, SOCIAL.TWITTER];
@@ -92,7 +93,7 @@
         }
     });
 
-    app.directive("howToItem", function() {
+    app.directive("howToItem", function () {
         return {
             restrict: "E",
             scope: {
