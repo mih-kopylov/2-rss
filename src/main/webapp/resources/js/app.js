@@ -74,7 +74,7 @@
                     $scope.social = $scope.getSocial();
                     $scope.rssFeed = "";
                     if ($scope.social) {
-                        $scope.rssFeed = "http://localhost:8080/" + $scope.social.rssKey + $scope.social.rssValue;
+                        $scope.rssFeed = location.host + "/" + $scope.social.rssKey + $scope.social.rssValue;
                     }
                 });
                 $scope.socials = [SOCIAL.VK, SOCIAL.PIKABU, SOCIAL.TWITTER];
