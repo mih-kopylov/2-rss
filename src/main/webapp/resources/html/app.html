@@ -1,9 +1,50 @@
 <md-toolbar>
-    <div class="md-toolbar-tools">
-        {{name}}
+    <div class="md-toolbar-tools title" layout="row" layout-align="start center" layout-padding>
+        <span flex="5"></span>
+        <span><md-icon>rss_feed</md-icon></span>
+        <span>2-RSS</span>
+        <span flex="5"></span>
     </div>
 </md-toolbar>
-<md-content layout >
-    <md-button class="md-accent md-raised">Button</md-button>
-    <md-button class="md-warn md-raised">Button</md-button>
+<md-content layout="row">
+    <div flex="5"></div>
+    <md-whiteframe class="md-whiteframe-2dp content" flex layout-margin>
+        <div layout="row">
+            <span flex="5"></span>
+            <div layout="column" flex>
+                <div class="announcement" layout="row" layout-align="center center" layout-padding>
+                    Создайте <span class="rss">RSS</span> ленту для социальных сетей
+                </div>
+                <md-input-container>
+                    <label>Вставьте ссылку социальной сети</label>
+                    <input type="url" ng-model="socialUrl" ng-required>
+                </md-input-container>
+                <div layout layout-align="center">
+                    <md-whiteframe class="md-whiteframe-2dp" flex="50" layout-padding>
+                        <div ng-if="social" layout layout-align="space-around center">
+                            <social-image value="social"></social-image>
+                            <!--<img ng-src="{{social.image}}" class="social image">-->
+                            <span>{{rssFeed}}</span>
+                            <md-button class="md-accent md-raised1 md-icon-button" ngclipboard data-clipboard-text="{{rssFeed}}">
+                                <md-icon>content_copy</md-icon>
+                                <md-tooltip md-direction="right">Скопировать ссылку на RSS</md-tooltip>
+                            </md-button>
+                        </div>
+                        <div ng-if="!social" layout layout-align="space-around center">
+                            <img src="/resources/images/sad.png" class="social image">
+                            <span>Вы ввели неправильную ссылку или сервис не поддерживается</span>
+                        </div>
+                    </md-whiteframe>
+                </div>
+                <div layout="column" layout-align="center center" layout-padding>
+                    <div>Поддерживаемые социальные сети</div>
+                    <div>
+                        <social-image ng-repeat="value in socials" value="value"></social-image>
+                    </div>
+                </div>
+            </div>
+            <span flex="5"></span>
+        </div>
+    </md-whiteframe>
+    <div flex="5"></div>
 </md-content>

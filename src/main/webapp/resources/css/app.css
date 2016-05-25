@@ -1,0 +1,38 @@
+.content {
+    height: 500px;
+}
+
+.title {
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.announcement {
+    text-transform: uppercase;
+    font-size: x-large;
+    margin-top: 50px;
+}
+
+.announcement .rss {
+    font-weight: bolder;
+    color: rgb(255, 171, 64);
+}
+
+.social.link {
+    text-decoration: blink;
+}
+
+.social.image {
+    border-radius: 50%;
+    height: 40px;
+}
+
+.social.image.small {
+    height: 24px;
+}
+
+md-input-container.md-icon-right .md-errors-spacer + .social.image {
+    margin: 0;
+    right: 2px;
+    left: auto;
+}
