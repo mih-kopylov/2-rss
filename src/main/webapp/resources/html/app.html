@@ -25,10 +25,16 @@
                             <social-image value="social"></social-image>
                             <!--<img ng-src="{{social.image}}" class="social image">-->
                             <span>{{rssFeed}}</span>
-                            <md-button class="md-accent md-raised1 md-icon-button" ngclipboard data-clipboard-text="{{rssFeed}}">
+                            <span layout="row" layout-padding>
+                            <md-button class="md-accent md-icon-button" ngclipboard data-clipboard-text="{{rssFeed}}">
                                 <md-icon>content_copy</md-icon>
-                                <md-tooltip md-direction="right">Скопировать ссылку на RSS</md-tooltip>
+                                <md-tooltip md-direction="bottom">Скопировать ссылку на RSS</md-tooltip>
                             </md-button>
+                            <md-button class="md-icon-button" ng-href="http://feedly.com/i/subscription/feed/{{rssFeed}}" target="_blank">
+                                <img src="/resources/images/feedly.png" class="social image small">
+                                <md-tooltip md-direction="bottom">Открыть в Feedly</md-tooltip>
+                            </md-button>
+                                </span>
                         </div>
                         <div ng-if="!social" layout layout-align="space-around center">
                             <img src="/resources/images/sad.png" class="social image">
