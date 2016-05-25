@@ -61,7 +61,7 @@
                 };
                 $scope.getSocial = function () {
                     var url = $scope.getCleanUrl($scope.socialUrl || "");
-                    var result;
+                    var result = undefined;
                     Object.keys(SOCIAL).forEach(function (key) {
                         if (url.startsWith(SOCIAL[key].url)) {
                             result = SOCIAL[key];
@@ -89,6 +89,17 @@
                 value: "="
             },
             templateUrl: "/resources/html/socialImage.html"
+        }
+    });
+
+    app.directive("howToItem", function() {
+        return {
+            restrict: "E",
+            scope: {
+                text: "@",
+                icon: "@"
+            },
+            templateUrl: "/resources/html/howToItem.html"
         }
     })
 })();

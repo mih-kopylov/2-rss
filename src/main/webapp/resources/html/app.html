@@ -30,7 +30,8 @@
                                 <md-icon>content_copy</md-icon>
                                 <md-tooltip md-direction="bottom">Скопировать ссылку на RSS</md-tooltip>
                             </md-button>
-                            <md-button class="md-icon-button" ng-href="http://feedly.com/i/subscription/feed/{{rssFeed}}" target="_blank">
+                            <md-button class="md-icon-button"
+                                       ng-href="http://feedly.com/i/subscription/feed/{{rssFeed}}" target="_blank">
                                 <img src="/resources/images/feedly.png" class="social image small">
                                 <md-tooltip md-direction="bottom">Открыть в Feedly</md-tooltip>
                             </md-button>
@@ -46,6 +47,16 @@
                     <div>Поддерживаемые социальные сети</div>
                     <div>
                         <social-image ng-repeat="value in socials" value="value"></social-image>
+                    </div>
+                </div>
+                <div class="how-to-use" layout="column" layout-align="center">
+                    <div layout="row" layout-align="center">Как пользоваться сервисом?</div>
+                    <div class="how-to-use-items" layout="row" layout-align="space-around center">
+                        <div flex="10"></div>
+                        <how-to-item icon="content_paste" text="Вставьте адрес страницы социальной сети"></how-to-item>
+                        <how-to-item icon="link" text="Скопируйте ссылку на RSS ленту"></how-to-item>
+                        <how-to-item icon="rss_feed" text="Добавьте RSS ленту в любимый RSS агрегатор"></how-to-item>
+                        <div flex="10"></div>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 .content {
-    height: 500px;
+    height: 700px;
 }
 
 .logo {
@@ -36,6 +36,27 @@
     height: 24px;
 }
 
-.supported-socials{
-    margin-top: 50px;
+.supported-socials,
+.how-to-use {
+    margin-top: 40px;
 }
+
+.how-to-use-items{
+    margin-top: 20px;
+}
+
+.how-to-use-item .md-button{
+    width: 80px;
+    height: 80px;
+}
+
+.how-to-use-item .md-button md-icon{
+    width: 50px;
+    height: 50px;
+    font-size: 50px;
+}
+
+.how-to-use-item .text{
+    text-align: center;
+}
+
