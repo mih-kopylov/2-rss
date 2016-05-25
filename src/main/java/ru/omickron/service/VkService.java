@@ -3,7 +3,6 @@ package ru.omickron.service;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.sun.jersey.api.client.Client;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,7 +15,7 @@ import ru.omickron.model.RssItem;
 
 @Component
 @Slf4j
-public class VkService {
+public class VkService extends AbstractLoadingService {
     private static final String LINK_VK = "http://vk.com/";
     private static final String LINK_VK_API = "https://api.vk.com/method/";
     private static final String VK_API_VERSION = "5.52";
@@ -25,7 +24,6 @@ public class VkService {
     private static final String LINK_VK_GET_GROUP =
             LINK_VK_API + "groups.getById?v=" + VK_API_VERSION + "&fields=description&group_id=";
     private static final String LINK_VK_POST = "<![CDATA[" + LINK_VK + "wall-%1$s?own=1&w=wall-%1$s_%2$s]]>";
-    private static final Client CLIENT = Client.create();
     private static final String BREAK = "<br>";
     private static final String P_TEXT = "text";
     private static final String P_COPY_TEXT = "copy_text";
@@ -130,7 +128,7 @@ public class VkService {
     }
 
     private JSONObject getGroupJson( String id ) throws JSONException {
-        String responce = CLIENT.resource( LINK_VK_GET_GROUP + id ).get( String.class );
+        String responce = client.resource( LINK_VK_GET_GROUP + id ).get( String.class );
         JSONObject object = new JSONObject( responce );
         if (object.has( P_RESPONSE )) {
             return object.getJSONArray( P_RESPONSE ).getJSONObject( 0 );
@@ -139,7 +137,7 @@ public class VkService {
     }
 
     private JSONArray getItemsJson( String id ) throws JSONException {
-        String responce = CLIENT.resource( LINK_VK_GET_POSTS + id ).get( String.class );
+        String responce = client.resource( LINK_VK_GET_POSTS + id ).get( String.class );
         return new JSONObject( responce ).getJSONObject( "response" ).getJSONArray( "items" );
     }
 }
