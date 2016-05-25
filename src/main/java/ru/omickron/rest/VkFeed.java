@@ -13,15 +13,15 @@ import ru.omickron.service.VkService;
 @RestController
 @RequestMapping(value = "/vk")
 public class VkFeed {
-    private final VkService vkService;
+    private final VkService service;
 
     @Autowired
-    public VkFeed( VkService vkService ) {
-        this.vkService = vkService;
+    public VkFeed( VkService service ) {
+        this.service = service;
     }
 
-    @RequestMapping(value = "/{idClub:.*}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_XML})
-    public Rss getChannel( @PathVariable("idClub") String idClub ) {
-        return vkService.getRss( idClub );
+    @RequestMapping(value = "/{id:.*}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_XML})
+    public Rss getChannel( @PathVariable("id") String id ) {
+        return service.getRss( id );
     }
 }
