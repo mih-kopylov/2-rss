@@ -1,7 +1,7 @@
 <md-toolbar>
     <div class="md-toolbar-tools title" layout="row" layout-align="start center" layout-padding>
         <span flex="5"></span>
-        <span><md-icon>rss_feed</md-icon></span>
+        <img src="/resources/images/logo.png" class="logo">
         <span>2-RSS</span>
         <span flex="5"></span>
     </div>
@@ -17,10 +17,10 @@
                 </div>
                 <md-input-container>
                     <label>Вставьте ссылку социальной сети</label>
-                    <input type="url" ng-model="socialUrl" ng-required>
+                    <input type="text" ng-model="socialUrl" ng-required>
                 </md-input-container>
                 <div layout layout-align="center">
-                    <md-whiteframe class="md-whiteframe-2dp" flex="50" layout-padding>
+                    <md-whiteframe class="md-whiteframe-2dp" flex="50" layout-padding ng-if="socialUrl">
                         <div ng-if="social" layout layout-align="space-around center">
                             <social-image value="social"></social-image>
                             <!--<img ng-src="{{social.image}}" class="social image">-->
