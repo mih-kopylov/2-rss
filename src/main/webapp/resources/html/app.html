@@ -16,27 +16,28 @@
                     Создайте <span class="rss">RSS</span> ленту для социальных сетей
                 </div>
                 <div layout="row" layout-align="center">
-                <md-input-container flex="70">
-                    <label>Вставьте ссылку социальной сети</label>
-                    <input type="text" ng-model="socialUrl" ng-required>
-                </md-input-container>
+                    <md-input-container flex="70">
+                        <label>Вставьте ссылку социальной сети</label>
+                        <input type="text" ng-model="socialUrl" ng-required>
+                    </md-input-container>
                 </div>
                 <div layout layout-align="center">
                     <md-whiteframe class="md-whiteframe-2dp" flex="70" layout-padding ng-if="socialUrl">
-                        <div ng-if="social" layout layout-align="space-around center">
+                        <div ng-if="social" layout="row" layout-align="space-around center">
                             <social-image value="social"></social-image>
                             <a ng-href="{{rssFeed}}">{{rssFeed}}</a>
                             <span layout="row" layout-padding>
-                            <md-button class="md-accent md-icon-button" ngclipboard data-clipboard-text="{{rssFeed}}">
-                                <md-icon>content_copy</md-icon>
-                                <md-tooltip md-direction="bottom">Скопировать ссылку на RSS</md-tooltip>
-                            </md-button>
-                            <md-button class="md-icon-button"
-                                       ng-href="http://feedly.com/i/subscription/feed/{{rssFeed}}" target="_blank">
-                                <img src="/resources/images/feedly.png" class="social image small">
-                                <md-tooltip md-direction="bottom">Открыть в Feedly</md-tooltip>
-                            </md-button>
-                                </span>
+                                <md-button class="md-accent md-icon-button" ngclipboard
+                                           data-clipboard-text="{{rssFeed}}">
+                                    <md-icon>content_copy</md-icon>
+                                    <md-tooltip md-direction="bottom">Скопировать ссылку на RSS</md-tooltip>
+                               </md-button>
+                                <md-button class="md-icon-button"
+                                           ng-href="http://feedly.com/i/subscription/feed/{{rssFeed}}" target="_blank">
+                                    <img src="/resources/images/feedly.png" class="social image small">
+                                    <md-tooltip md-direction="bottom">Открыть в Feedly</md-tooltip>
+                                </md-button>
+                            </span>
                         </div>
                         <div ng-if="!social" layout layout-align="space-around center">
                             <img src="/resources/images/sad.png" class="social image">
