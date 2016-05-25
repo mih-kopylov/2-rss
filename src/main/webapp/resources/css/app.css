@@ -36,8 +36,6 @@
     height: 24px;
 }
 
-md-input-container.md-icon-right .md-errors-spacer + .social.image {
-    margin: 0;
-    right: 2px;
-    left: auto;
+.supported-socials{
+    margin-top: 50px;
 }
