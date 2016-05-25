@@ -25,7 +25,7 @@
                     <md-whiteframe class="md-whiteframe-2dp" flex="70" layout-padding ng-if="socialUrl">
                         <div ng-if="social" layout layout-align="space-around center">
                             <social-image value="social"></social-image>
-                            <span>{{rssFeed}}</span>
+                            <a ng-href="{{rssFeed}}">{{rssFeed}}</a>
                             <span layout="row" layout-padding>
                             <md-button class="md-accent md-icon-button" ngclipboard data-clipboard-text="{{rssFeed}}">
                                 <md-icon>content_copy</md-icon>
