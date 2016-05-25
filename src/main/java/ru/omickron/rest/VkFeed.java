@@ -13,8 +13,12 @@ import ru.omickron.service.VkService;
 @RestController
 @RequestMapping(value = "/vk")
 public class VkFeed {
+    private final VkService vkService;
+
     @Autowired
-    private VkService vkService;
+    public VkFeed( VkService vkService ) {
+        this.vkService = vkService;
+    }
 
     @RequestMapping(value = "/{idClub:.*}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_XML})
     public Rss getChannel( @PathVariable("idClub") String idClub ) {
