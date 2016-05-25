@@ -12,7 +12,7 @@ import ru.omickron.service.VkService;
 
 @RestController
 @RequestMapping(value = "/vk")
-public class VkFeed extends FeedFacade {
+public class VkFeed {
     @Autowired
     private VkService vkService;
 
