@@ -62,6 +62,7 @@ public class PikabuService extends AbstractLoadingService {
                         videoDiv.html(String.format( "<iframe src=\"%s\" width=\"600\" height=\"337\"/>", videoUrl) );
                     } );
                     description = descriptionDocument.html();
+                    description = description.replaceAll( "<p><br></p>", "" );
                     return new RssItem( title, link, description, Long.parseLong( pubDateString ) );
                 } ).collect( Collectors.toList() );
     }
