@@ -29,13 +29,13 @@
             name: "Пикабу",
             image: "/resources/images/pikabu.png",
             rssKey: "pikabu"
-        },
-        TWITTER: {
-            protocol: CONST.HTTPS,
-            url: "twitter.com",
-            name: "Твиттер",
-            image: "/resources/images/twitter.png",
-            rssKey: "twitter"
+        // },
+        // TWITTER: {
+        //     protocol: CONST.HTTPS,
+        //     url: "twitter.com",
+        //     name: "Твиттер",
+        //     image: "/resources/images/twitter.png",
+        //     rssKey: "twitter"
         }
     };
 
