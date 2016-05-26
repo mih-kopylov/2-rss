@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import com.google.common.base.Charsets;
 import lombok.extern.slf4j.Slf4j;
-import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -57,6 +56,12 @@ public class PikabuService extends AbstractLoadingService {
                     String link = titleElements.attr( "href" );
                     String pubDateString = o.select( ".story__date" ).attr( "title" );
                     String description = o.select( ".b-story__content" ).html();
+                    Document descriptionDocument = Jsoup.parse( description );
+                    descriptionDocument.select( ".b-video" ).stream().forEach( videoDiv->{
+                        String videoUrl = videoDiv.attr( "data-url" );
+                        videoDiv.html(String.format( "<iframe src=\"%s\" width=\"600\" height=\"337\"/>", videoUrl) );
+                    } );
+                    description = descriptionDocument.html();
                     return new RssItem( title, link, description, Long.parseLong( pubDateString ) );
                 } ).collect( Collectors.toList() );
     }
