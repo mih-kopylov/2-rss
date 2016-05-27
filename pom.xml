@@ -4,7 +4,7 @@
     <groupId>ru.omickron</groupId>
     <artifactId>2rss</artifactId>
     <packaging>war</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>2rss</name>
 
     <properties>
