@@ -7,6 +7,11 @@
     width: 48px;
 }
 
+.github {
+    height: 32px;
+    width: 32px;
+}
+
 .title {
     font-weight: bold;
     font-size: x-large;
@@ -41,23 +46,23 @@
     margin-top: 40px;
 }
 
-.how-to-use-items{
+.how-to-use-items {
     margin-top: 20px;
 }
 
-.how-to-use-item .md-button{
+.how-to-use-item .md-button {
     width: 80px;
     height: 80px;
     margin-bottom: 10px;
 }
 
-.how-to-use-item .md-button md-icon{
+.how-to-use-item .md-button md-icon {
     width: 50px;
     height: 50px;
     font-size: 50px;
 }
 
-.how-to-use-item .text{
+.how-to-use-item .text {
     text-align: center;
 }
 
