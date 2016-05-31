@@ -6,6 +6,10 @@
     
 [Пожелания](https://github.com/mih-kopylov/2-rss/issues) приветствуются. [Pull request-ы](https://github.com/mih-kopylov/2-rss/pulls) тем более.
 
+## 1.1.0
+
+- Реализация канала для twitter.com. Ссылки вида https://twitter.com/my_channel
+
 ## 1.0.0
 
 - Реализация канала для vk.com. Ссылки вида http://vk.com/my_channel
