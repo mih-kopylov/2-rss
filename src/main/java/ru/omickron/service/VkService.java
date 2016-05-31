@@ -7,9 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
-import ru.omickron.model.Rss;
 import ru.omickron.model.RssChannel;
 import ru.omickron.model.RssItem;
 
@@ -43,13 +41,7 @@ public class VkService extends AbstractLoadingService {
     private static final String TEMPLATE_LINK = "\\[([^\\|]+)\\|([^\\]]+)\\]";
     private static final String TEMPLATE_LINK_REPLACE = "<a href=$1>$2</a>";
 
-    @Cacheable(value = "rss")
-    public Rss getRss( String id ) {
-        log.debug( "Generating channel {} ", id );
-        return new Rss( getChannel( id ) );
-    }
-
-    private RssChannel getChannel( String id ) {
+    protected RssChannel getChannel( String id ) {
         String title = null;
         String link = null;
         String description = null;

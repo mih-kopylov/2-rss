@@ -8,11 +8,10 @@ import com.google.common.base.Charsets;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriUtils;
-import ru.omickron.model.Rss;
 import ru.omickron.model.RssChannel;
 import ru.omickron.model.RssItem;
 
@@ -21,35 +20,38 @@ import static org.apache.commons.lang.Validate.isTrue;
 
 @Component
 @Slf4j
-public class PikabuService extends AbstractLoadingService {
-    @Cacheable(value = "rss")
-    public Rss getRss( String id ) {
-        log.debug( "Generating channel {}", id );
-        return new Rss( getChannel( id ) );
+public class PikabuService extends AbstractParseService {
+    @Override
+    protected String loadPageHtml( String id ) {
+        try {
+            return client.resource( "http://pikabu.ru" + UriUtils.encodePath( id, Charsets.UTF_8.name() ) )
+                    .get( String.class );
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException( e );
+        }
     }
 
-    private RssChannel getChannel( String id ) {
-        String page = getPageHtml( id );
-        Document document = Jsoup.parse( page );
-        RssChannel channel;
+    @Override
+    protected RssChannel parseChannel( Document document ) {
+        RssChannel result;
         Elements profileInfo = document.select( ".profile_wrap" );
         if (!profileInfo.isEmpty()) {
-            channel = getChannelFromProfile( profileInfo );
+            result = parseChannelFromProfile( profileInfo );
         } else {
             Elements searchInfo = document.select( ".story-search" );
             if (!searchInfo.isEmpty()) {
-                channel = getChannelFromSearch( searchInfo );
+                result = parseChannelFromSearch( searchInfo );
             } else {
-                log.error( page );
+                log.error( document.html() );
                 throw new RuntimeException( "Can't parse channel info" );
             }
         }
-        channel.getItems().addAll( getItems( document.select( ".stories" ) ) );
-        return channel;
+        return result;
     }
 
-    private List<RssItem> getItems( Elements stories ) {
-        return stories.select( ".story" ).stream()
+    @Override
+    protected List<RssItem> parseItems( Document document ) {
+        return document.select( ".stories .story" ).stream()
                 .filter( o -> isNotBlank( o.select( ".story__date" ).attr( "title" ) ) ).map( o -> {
                     Elements titleElements = o.select( ".story__header-title a" );
                     String title = titleElements.html();
@@ -57,9 +59,9 @@ public class PikabuService extends AbstractLoadingService {
                     String pubDateString = o.select( ".story__date" ).attr( "title" );
                     String description = o.select( ".b-story__content" ).html();
                     Document descriptionDocument = Jsoup.parse( description );
-                    descriptionDocument.select( ".b-video" ).stream().forEach( videoDiv->{
+                    descriptionDocument.select( ".b-video" ).stream().forEach( videoDiv -> {
                         String videoUrl = videoDiv.attr( "data-url" );
-                        videoDiv.html(String.format( "<iframe src=\"%s\" width=\"600\" height=\"337\"/>", videoUrl) );
+                        videoDiv.html( String.format( "<iframe src=\"%s\" width=\"600\" height=\"337\"/>", videoUrl ) );
                     } );
                     description = descriptionDocument.html();
                     description = description.replaceAll( "<p><br></p>", "" );
@@ -67,30 +69,21 @@ public class PikabuService extends AbstractLoadingService {
                 } ).collect( Collectors.toList() );
     }
 
-    private RssChannel getChannelFromSearch( Elements searchInfo ) {
+    private RssChannel parseChannelFromSearch( Elements searchInfo ) {
         Elements tagElements = searchInfo.select( ".search-tags-container .search-startup-tag :first-child" );
         isTrue( !tagElements.isEmpty() );
         String tagsPart = tagElements.size() > 1 ? "тегами" : "тегом";
-        String tagsString = tagElements.stream().map( o -> o.html() ).collect( Collectors.joining( ", " ) );
+        String tagsString = tagElements.stream().map( Element:: html ).collect( Collectors.joining( ", " ) );
         String channelName = String.format( "Записи с %s %s", tagsPart, tagsString );
         return new RssChannel( channelName, String.format( "http://pikabu.ru/tag/%s", tagsString ), channelName );
     }
 
-    private RssChannel getChannelFromProfile( Elements profileInfo ) {
+    private RssChannel parseChannelFromProfile( Elements profileInfo ) {
         Elements nameElements = profileInfo.select( "td:nth-child(2) > div > a" );
         isTrue( 1 == nameElements.size() );
         String name = nameElements.get( 0 ).html();
         String link = nameElements.get( 0 ).attr( "href" );
         return new RssChannel( String.format( "Пользователь %s", name ), link,
                 String.format( "Все посты пользователя %s", name ) );
-    }
-
-    private String getPageHtml( String id ) {
-        try {
-            return client.resource( "http://pikabu.ru" + UriUtils.encodePath( id, Charsets.UTF_8.name() ) )
-                    .get( String.class );
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException( e );
-        }
     }
 }
