@@ -23,7 +23,7 @@ public class VkService extends AbstractLoadingService {
             LINK_VK_API + "wall.get?v=" + VK_API_VERSION + "&count=30&owner_id=-";
     private static final String LINK_VK_GET_GROUP =
             LINK_VK_API + "groups.getById?v=" + VK_API_VERSION + "&fields=description&group_id=";
-    private static final String LINK_VK_POST = "<![CDATA[" + LINK_VK + "wall-%1$s?own=1&w=wall-%1$s_%2$s]]>";
+    private static final String LINK_VK_POST = LINK_VK + "wall-%1$s?own=1&w=wall-%1$s_%2$s";
     private static final String BREAK = "<br>";
     private static final String P_TEXT = "text";
     private static final String P_COPY_TEXT = "copy_text";
@@ -86,7 +86,6 @@ public class VkService extends AbstractLoadingService {
                             }
                         }
                         itemDescription = itemDescription.replaceAll( TEMPLATE_LINK, TEMPLATE_LINK_REPLACE );
-                        itemDescription = String.format( "<![CDATA[%s]]>", itemDescription );
                         long pubDate = itemJson.getInt( P_DATE );
                         RssItem rssItem = new RssItem( title, itemLink, itemDescription, pubDate );
 
