@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import com.google.common.base.Charsets;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriUtils;
 import ru.omickron.model.RssChannel;
@@ -36,12 +37,24 @@ public class TwitterService extends AbstractParseService {
 
     @Override
     protected List<RssItem> parseItems( Document document ) {
-        return document.select( ".js-stream-item" ).stream().map( o -> {
+        return document.select( ".js-stream-tweet" ).stream().map( o -> {
             String title = "Твит";
-            String descrption = o.select( ".js-stream-tweet js-tweet-text" ).text();
+            StringBuilder descrption = new StringBuilder();
+            Element textBlock = o.select( ".js-tweet-text" ).first();
+            if (null != textBlock) {
+                descrption.append( textBlock.ownText() );
+                for (Element linkElement : textBlock.select( "a[data-expanded-url]" )) {
+                    descrption.append(
+                            String.format( "<br><a href=\"%1$s\">%1$s</a>", linkElement.attr( "data-expanded-url" ) ) );
+                }
+            }
+            for (Element photoElement : o.select( ".js-adaptive-photo[data-image-url]" )) {
+                descrption.append( String.format( "<img src=\"%1$s\">", photoElement.attr( "data-image-url" ) ) );
+            }
+
             long pubDate = Long.parseLong( o.select( ".js-short-timestamp" ).attr( "data-time" ) );
             String link = URL + o.select( ".time a" ).attr( "href" );
-            return new RssItem( title, link, descrption, pubDate );
+            return new RssItem( title, link, descrption.toString(), pubDate );
         } ).collect( Collectors.toList() );
     }
 }
