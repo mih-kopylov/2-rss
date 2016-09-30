@@ -51,15 +51,15 @@ public class PikabuService extends AbstractParseService {
 
     @Override
     protected List<RssItem> parseItems( Document document ) {
-        return document.select( ".stories .story" ).stream()
-                .filter( o -> isNotBlank( o.select( ".story__date" ).attr( "title" ) ) ).map( o -> {
+        return document.select( ".stories .story" ).stream().filter( this :: hasTitle ).filter( this :: isNotAd )
+                .map( o -> {
                     Elements titleElements = o.select( ".story__header-title a" );
                     String title = titleElements.html();
                     String link = titleElements.attr( "href" );
                     String pubDateString = o.select( ".story__date" ).attr( "title" );
                     String description = o.select( ".b-story__content" ).html();
                     Document descriptionDocument = Jsoup.parse( description );
-                    descriptionDocument.select( ".b-video" ).stream().forEach( videoDiv -> {
+                    descriptionDocument.select( ".b-video" ).forEach( videoDiv -> {
                         String videoUrl = videoDiv.attr( "data-url" );
                         videoDiv.html( String.format( "<iframe src=\"%s\" width=\"600\" height=\"337\"/>", videoUrl ) );
                     } );
@@ -67,6 +67,14 @@ public class PikabuService extends AbstractParseService {
                     description = description.replaceAll( "<p><br></p>", "" );
                     return new RssItem( title, link, description, Long.parseLong( pubDateString ) );
                 } ).collect( Collectors.toList() );
+    }
+
+    private boolean isNotAd( Element element ) {
+        return element.select( ".story__sponsor" ).isEmpty();
+    }
+
+    private boolean hasTitle( Element element ) {
+        return isNotBlank( element.select( ".story__date" ).attr( "title" ) );
     }
 
     private RssChannel parseChannelFromSearch( Elements searchInfo ) {
