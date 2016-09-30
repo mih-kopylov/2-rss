@@ -87,7 +87,7 @@ public class PikabuService extends AbstractParseService {
     }
 
     private RssChannel parseChannelFromProfile( Elements profileInfo ) {
-        Elements nameElements = profileInfo.select( "td:nth-child(2) > div > a" );
+        Elements nameElements = profileInfo.select( "td:nth-child(2) > div > a:nth-child(1)" );
         isTrue( 1 == nameElements.size() );
         String name = nameElements.get( 0 ).html();
         String link = nameElements.get( 0 ).attr( "href" );
