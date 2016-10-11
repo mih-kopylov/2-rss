@@ -16,7 +16,6 @@ import ru.omickron.model.RssChannel;
 import ru.omickron.model.RssItem;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.apache.commons.lang.Validate.isTrue;
 
 @Component
 @Slf4j
@@ -33,20 +32,8 @@ public class PikabuService extends AbstractParseService {
 
     @Override
     protected RssChannel parseChannel( Document document ) {
-        RssChannel result;
-        Elements profileInfo = document.select( ".profile_wrap" );
-        if (!profileInfo.isEmpty()) {
-            result = parseChannelFromProfile( profileInfo );
-        } else {
-            Elements searchInfo = document.select( ".story-search" );
-            if (!searchInfo.isEmpty()) {
-                result = parseChannelFromSearch( searchInfo );
-            } else {
-                log.error( document.html() );
-                throw new RuntimeException( "Can't parse channel info" );
-            }
-        }
-        return result;
+        PikabuMode mode = PikabuMode.select( document );
+        return mode.parseChannel( document );
     }
 
     @Override
@@ -75,23 +62,5 @@ public class PikabuService extends AbstractParseService {
 
     private boolean hasTitle( Element element ) {
         return isNotBlank( element.select( ".story__date" ).attr( "title" ) );
-    }
-
-    private RssChannel parseChannelFromSearch( Elements searchInfo ) {
-        Elements tagElements = searchInfo.select( ".search-tags-container .search-startup-tag :first-child" );
-        isTrue( !tagElements.isEmpty() );
-        String tagsPart = tagElements.size() > 1 ? "тегами" : "тегом";
-        String tagsString = tagElements.stream().map( Element:: html ).collect( Collectors.joining( ", " ) );
-        String channelName = String.format( "Записи с %s %s", tagsPart, tagsString );
-        return new RssChannel( channelName, String.format( "http://pikabu.ru/tag/%s", tagsString ), channelName );
-    }
-
-    private RssChannel parseChannelFromProfile( Elements profileInfo ) {
-        Elements nameElements = profileInfo.select( "td:nth-child(2) > div > a:nth-child(1)" );
-        isTrue( 1 == nameElements.size() );
-        String name = nameElements.get( 0 ).html();
-        String link = nameElements.get( 0 ).attr( "href" );
-        return new RssChannel( String.format( "Пользователь %s", name ), link,
-                String.format( "Все посты пользователя %s", name ) );
     }
 }
