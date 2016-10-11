@@ -3,7 +3,6 @@ package ru.omickron.rest;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
 
-import com.google.common.base.Charsets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +23,6 @@ public class PikabuFeed {
 
     @RequestMapping(value = "/**", method = RequestMethod.GET, produces = {MediaType.APPLICATION_XML})
     public Rss getChannel( HttpServletRequest request ) {
-        String servletPath = new String(request.getServletPath().getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+        String servletPath = request.getServletPath();
         return service.getRss( servletPath.substring( URL.length() ) );    }
 }
