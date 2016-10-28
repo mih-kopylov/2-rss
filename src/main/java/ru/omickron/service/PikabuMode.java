@@ -35,7 +35,7 @@ public enum PikabuMode {
 
     private static RssChannel parseChannelFromSearch( Elements elements ) {
         Elements tagElements = elements.select( ".search-tags-container .search-startup-tag :first-child" );
-        isTrue( !tagElements.isEmpty() );
+        isTrue( !tagElements.isEmpty(), "Can't find channel headers" );
         String tagsPart = tagElements.size() > 1 ? "тегами" : "тегом";
         String tagsString = tagElements.stream().map( Element:: html ).collect( Collectors.joining( ", " ) );
         String channelName = String.format( "Записи с %s %s", tagsPart, tagsString );
@@ -44,7 +44,7 @@ public enum PikabuMode {
 
     private static RssChannel parseChannelFromProfile( Elements elements ) {
         Elements nameElements = elements.select( "td:nth-child(2) > div > a:nth-child(1)" );
-        isTrue( !nameElements.isEmpty() );
+        isTrue( !nameElements.isEmpty(), "Can't find profile headers" );
         String name = nameElements.get( 0 ).html();
         String link = nameElements.get( 0 ).attr( "href" );
         return new RssChannel( String.format( "Пользователь %s", name ), link,
@@ -54,8 +54,8 @@ public enum PikabuMode {
     private static RssChannel parseChannelFromCommunity( Elements elements ) {
         Elements nameElements = elements.select( "h1" );
         Elements linkElements = elements.get( 0 ).parent().select( ".b-community-h-menu a:nth-child(1)" );
-        isTrue( !nameElements.isEmpty() );
-        isTrue( !linkElements.isEmpty() );
+        isTrue( !nameElements.isEmpty(), "Can't find community name" );
+        isTrue( !linkElements.isEmpty(), "Can't find community link" );
         String name = nameElements.get( 0 ).html();
         String link = linkElements.get( 0 ).attr( "href" );
         return new RssChannel( String.format( "Сообщество %s", name ), link,
