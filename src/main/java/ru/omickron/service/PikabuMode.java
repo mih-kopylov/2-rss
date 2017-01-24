@@ -39,7 +39,8 @@ public enum PikabuMode {
         String tagsPart = tagElements.size() > 1 ? "тегами" : "тегом";
         String tagsString = tagElements.stream().map( Element:: html ).collect( Collectors.joining( ", " ) );
         String channelName = String.format( "Записи с %s %s", tagsPart, tagsString );
-        return new RssChannel( channelName, String.format( "http://pikabu.ru/tag/%s", tagsString ), channelName );
+        return new RssChannel( channelName, String.format( PikabuService.HTTP_PIKABU_RU + "/tag/%s", tagsString ),
+                channelName );
     }
 
     private static RssChannel parseChannelFromProfile( Elements elements ) {
@@ -57,7 +58,7 @@ public enum PikabuMode {
         isTrue( !nameElements.isEmpty(), "Can't find community name" );
         isTrue( !linkElements.isEmpty(), "Can't find community link" );
         String name = nameElements.get( 0 ).html();
-        String link = linkElements.get( 0 ).attr( "href" );
+        String link = PikabuService.HTTP_PIKABU_RU + linkElements.get( 0 ).attr( "href" );
         return new RssChannel( String.format( "Сообщество %s", name ), link,
                 String.format( "Все посты сообщества %s", name ) );
     }

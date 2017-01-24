@@ -20,10 +20,12 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 @Component
 @Slf4j
 public class PikabuService extends AbstractParseService {
+    public static final String HTTP_PIKABU_RU = "http://pikabu.ru";
+
     @Override
     protected String loadPageHtml( String id ) {
         try {
-            return client.resource( "http://pikabu.ru" + UriUtils.encodePath( id, Charsets.UTF_8.name() ) )
+            return client.resource( HTTP_PIKABU_RU + UriUtils.encodePath( id, Charsets.UTF_8.name() ) )
                     .get( String.class );
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException( e );
